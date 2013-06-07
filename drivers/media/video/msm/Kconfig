@@ -13,13 +13,13 @@ comment "Camera Sensor Selection"
 config MT9T013
 	bool "Sensor mt9t013 (BAYER 3M)"
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !ARCH_MSM8960 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  MICRON 3M Bayer Sensor with AutoFocus
 config MT9D113
 	bool "Sensor mt9d113 (YUV 2M)"
 	depends on MSM_CAMERA && ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  MICRON 2M YUV Sensor
 	  This sensor is the front camera on QT8660.
@@ -28,7 +28,7 @@ config MT9D113
 config MT9D112
 	bool "Sensor mt9d112 (YUV 2M)"
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !ARCH_MSM8960 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  MICRON 2M YUV Sensor
 config IMX074
@@ -56,7 +56,7 @@ config MT9M114
 config WEBCAM_OV7692
 	bool "Sensor OV7692 (VGA YUV)"
 	depends on MSM_CAMERA && ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  Omni Vision VGA YUV Sensor.
 config WEBCAM_OV9726
@@ -70,19 +70,19 @@ config WEBCAM_OV9726
 config VX6953
 	bool "Sensor VX6953 (BAYER 5M)"
 	depends on MSM_CAMERA && (ARCH_MSM7X30 || ARCH_MSM8X60) && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	STM 5M Bayer Sensor with EDOF
 config SN12M0PZ
 	bool "Sensor sn12m0pz (Bayer 12 MP)"
 	depends on MSM_CAMERA && ARCH_MSM7X30 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  Sony 12 MP Bayer Sensor
 config MT9P012
 	bool "Sensor mt9p012 (BAYER 5M)"
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  MICRON 5M Bayer Sensor with Autofocus
 
@@ -106,7 +106,7 @@ endchoice
 config MT9P012_KM
 	bool "Sensor mt9p012 KM module (BAYER 5M)"
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  MICRON 5M Bayer Sensor KM modules with Autofocus
 
@@ -126,14 +126,14 @@ config IMX074_ACT
 config S5K3E2FX
 	bool "Sensor s5k3e2fx (Samsung 5M)"
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  Samsung 5M with Autofocus
 
 config QS_S5K4E1
 	bool "Sensor qs_s5k4e1 (Samsung 5M)"
 	depends on MSM_CAMERA && ARCH_MSM8X60 && !MSM_CAMERA_V4L2
-	default y
+	default n
 	---help---
 	  Samsung 5M with Autofocus
 
@@ -182,6 +182,20 @@ config VB6801
 	depends on MSM_CAMERA && !ARCH_MSM8X60 && !MSM_CAMERA_V4L2
 	---help---
 	  5M with flash
+
+config S5K4ECGX
+	bool "Sensor S5K4ECGX (YUV 5M)"
+	depends on MSM_CAMERA && ARCH_MSM8X60 && MSM_CAMERA_V4L2
+	default y
+	---help---
+	Samsung LSI 5M YUV Sensor with AutoFocus
+
+config MT9V113
+	bool "Sensor MT9V113 (YUV VGA)"
+	depends on MSM_CAMERA && ARCH_MSM8X60 && MSM_CAMERA_V4L2
+	default y
+	---help---
+	Aptina VGA YUV Sensor without AutoFocus
 
 config MSM_CAMERA_FLASH
 	bool "Qualcomm MSM camera flash support"
