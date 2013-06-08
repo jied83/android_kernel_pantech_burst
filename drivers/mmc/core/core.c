@@ -42,6 +42,9 @@
 
 static struct workqueue_struct *workqueue;
 
+#ifdef CONFIG_SKY_MMC
+extern unsigned int msm8x60_sdcc_slot_status(void);
+#endif /* CONFIG_SKY_MMC */
 /*
  * Enabling software CRCs on the data blocks can be a significant (30%)
  * performance cost, and for other reasons may not always be desired.
@@ -1523,6 +1526,7 @@ out:
 int mmc_erase(struct mmc_card *card, unsigned int from, unsigned int nr,
 	      unsigned int arg)
 {
+#if 0
 	unsigned int rem, to = from + nr;
 
 	if (!(card->host->caps & MMC_CAP_ERASE) ||
@@ -1575,6 +1579,9 @@ int mmc_erase(struct mmc_card *card, unsigned int from, unsigned int nr,
 	to -= 1;
 
 	return mmc_do_erase(card, from, to, arg);
+#else
+	return -EOPNOTSUPP;
+#endif
 }
 EXPORT_SYMBOL(mmc_erase);
 
@@ -1710,6 +1717,9 @@ void mmc_rescan(struct work_struct *work)
 	struct mmc_host *host =
 		container_of(work, struct mmc_host, detect.work);
 	bool extend_wakelock = false;
+#ifdef CONFIG_SKY_MMC
+	static int first_scan = 1;
+#endif /* CONFIG_SKY_MMC */
 
 	if (host->rescan_disable)
 		return;
@@ -1744,6 +1754,20 @@ void mmc_rescan(struct work_struct *work)
 		mmc_bus_put(host);
 		goto out;
 	}
+
+#ifdef CONFIG_SKY_MMC
+	/*host->index == 2  ->  external SD*/
+	if (host->index == 2 && first_scan){
+		first_scan = 0;
+		mmc_power_up(host);
+		msleep(10);
+		mmc_power_off(host);
+	}
+	if (host->index == 2 && !msm8x60_sdcc_slot_status()) {
+		mmc_bus_put(host);
+		goto out;
+	}
+#endif /* CONFIG_SKY_MMC */
 
 	/*
 	 * Only we can add a new handler, so it's safe to
