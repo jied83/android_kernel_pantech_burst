@@ -2849,10 +2849,12 @@ void mdp_footswitch_ctrl(boolean on)
 	if (dsi_pll_vdda)
 		regulator_enable(dsi_pll_vdda);
 
+#ifdef CONFIG_FB_MSM_MIPI_DSI
 	mipi_dsi_prepare_clocks();
 	mipi_dsi_ahb_ctrl(1);
 	mipi_dsi_phy_ctrl(1);
 	mipi_dsi_clk_enable();
+#endif /* CONFIG_FB_MSM_MIPI_DSI */
 
 	if (on && !mdp_footswitch_on) {
 		pr_debug("Enable MDP FS\n");
@@ -2864,10 +2866,12 @@ void mdp_footswitch_ctrl(boolean on)
 		mdp_footswitch_on = 0;
 	}
 
+#ifdef CONFIG_FB_MSM_MIPI_DSI
 	mipi_dsi_clk_disable();
 	mipi_dsi_phy_ctrl(0);
 	mipi_dsi_ahb_ctrl(0);
 	mipi_dsi_unprepare_clocks();
+#endif /* CONFIG_FB_MSM_MIPI_DSI */
 
 	if (dsi_pll_vdda)
 		regulator_disable(dsi_pll_vdda);
